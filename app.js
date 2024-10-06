@@ -19,6 +19,7 @@ let tie
 const squareEls = document.querySelectorAll('.sqr')
 const messageEl = document.querySelector('#message')
 const gameBoard = document.querySelector('.board')
+const resetBtnEl = document.querySelector("#reset")
 /*-------------------------------- Functions --------------------------------*/
 const render = () => {
   updateBoard()
@@ -46,26 +47,78 @@ const updateMessage = () => {
   } else if (winner === false && tie === true) {
     messageEl.textContent = `It's a TIE !`
   } else {
-    ;`Congrats ${turn}, You have Won`
+    messageEl.textContent = `Congrats ${turn}, You have Won`
   }
 }
 
 const handleClick = (event) => {
-  squareIndex = event.target.id
+  const squareIndex = event.target.id
   console.log(squareIndex)
   if (board[squareIndex] === 'X' || board[squareIndex] === 'O') {
     return
   } else if (winner === true) {
     return
   } else {
+    
     placePiece(squareIndex)
     updateBoard()
+    checkForWinner()
+    checkForTie()
+    switchPlayerTurn()
+    updateMessage()
+    
   }
 }
 
 const placePiece = (index) => {
   board[index] = turn
   console.log(board[index])
+  console.log(board);
+  
+}
+
+const checkForWinner = () => {
+  let a
+  let b
+  let c
+  winningCombos.forEach((combo) => {
+    a = combo[0]
+    b = combo[1]
+    c = combo[2]
+
+    if (board[a] !== "") {
+      if (board[a] === board[b]) {
+        if (board[a] === board[c]) {
+          winner = true
+          console.log(winner);
+          console.log(turn, "is the winner");
+        }
+      }
+    }
+  })
+}
+
+
+const checkForTie = () => {
+  if (winner === true) {
+    return
+  }else if (board.includes("")) {
+    console.log("Hey The baord array still contains an empty element");
+    tie = false
+    console.log("tie is: ",tie);
+  }else if (!board.includes("")) {
+    tie = true
+  }
+}
+
+const switchPlayerTurn = () => {
+  if (winner === true) {
+    return
+  }else if (turn === "X") {
+    turn = "O" 
+  }else if (turn === "O") {
+    turn = "X"
+  }
 }
 
 /*----------------------------- Event Listeners -----------------------------*/
@@ -77,4 +130,8 @@ squareEls.forEach((cell) => {
   cell.addEventListener('click', (event) => {
     handleClick(event)
   })
+})
+
+resetBtnEl.addEventListener("click", (event) => {
+  init()
 })

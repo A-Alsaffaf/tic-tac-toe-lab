@@ -14,7 +14,29 @@ body {
 .sqr {
   width: 30%;
   aspect-ratio: 1/1;
-  border: 3px solid black;
+  border: 3px ridge black;
   font-size: 64px;
   text-align: center;
+  border-radius: 0.5rem;
+}
+
+
+#gameContainer {
+  height: auto;
+  width: auto;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+#reset {
+  width: 6rem;
+  height: 2rem;
+  margin: 1em auto;
+  border-radius: 0.5rem;
+}
+
+#reset:hover {
+  background-color: aquamarine;
 }
